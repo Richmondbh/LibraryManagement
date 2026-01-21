@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using LibraryManagement.Application.Common.Interfaces;
+using LibraryManagement.Infrastructure.Data;
+using LibraryManagement.Infrastructure.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LibraryManagement.Infrastructure;
@@ -9,16 +13,24 @@ public static class DependencyInjection
     this IServiceCollection services,
     IConfiguration configuration)
     {
-        //// Database
-        //services.AddDbContext<LibraryDbContext>(options =>
-        //    options.UseSqlServer(
-        //        configuration.GetConnectionString("DefaultConnection")));
 
-        //// Repositories
-        //services.AddScoped<IBookRepository, SqlBookRepository>();
+        services.AddDbContext<LibraryDbContext>(options =>
+            options.UseNpgsql(
+                configuration.GetConnectionString("DefaultConnection"),
+                npgsqlOptions =>
+                {
+                    // Ensures migrations are placed in Infrastructure
+                    npgsqlOptions.MigrationsAssembly(
+                        typeof(LibraryDbContext).Assembly.FullName);
+                }
+
+                ));
+
+        //Repositories
+        services.AddScoped<IBookRepository, PostGresBookRepository>();
         //services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        //// Caching (when you add Redis later)
+        //// Caching (when I add Redis later)
         //// services.AddStackExchangeRedisCache(options =>
         ////     options.Configuration = configuration.GetConnectionString("Redis"));
         //// services.AddScoped<ICacheService, RedisCacheService>();
