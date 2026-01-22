@@ -2,6 +2,7 @@
 using LibraryManagement.Infrastructure.Caching;
 using LibraryManagement.Infrastructure.Data;
 using LibraryManagement.Infrastructure.Data.Repositories;
+using LibraryManagement.Infrastructure.Messaging.ServiceBus;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,6 +46,7 @@ public static class DependencyInjection
 
         // Services
         services.AddScoped<ICacheService, RedisCacheService>();
+        services.AddSingleton<IMessagePublisher, ServiceBusPublisher>();
 
         //Repositories
         services.AddScoped<IBookRepository, PostGresBookRepository>();
