@@ -1,3 +1,4 @@
+using LibraryManagement.API.Middleware;
 using LibraryManagement.Application;
 using LibraryManagement.Infrastructure;
 using System.Reflection;
@@ -23,7 +24,10 @@ var builder = WebApplication.CreateBuilder(args);
         app.UseSwaggerUI();
     }
 
-    app.UseHttpsRedirection();
+// Adding exception handling middleware 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.UseHttpsRedirection();
 
     app.UseAuthorization();
 
