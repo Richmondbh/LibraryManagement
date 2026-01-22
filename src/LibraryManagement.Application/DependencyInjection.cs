@@ -22,10 +22,13 @@ public static class DependencyInjection
             cfg.RegisterServicesFromAssembly(assembly);
 
             // Register pipeline behaviors
-            // 1. Validation runs first
+            // 1. Logging runs first (captures everything)
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+
+            // 2. Validation runs second
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-            // 2.Caching runs after validation
+            // 3. Caching runs last (for queries)
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
         });
 
