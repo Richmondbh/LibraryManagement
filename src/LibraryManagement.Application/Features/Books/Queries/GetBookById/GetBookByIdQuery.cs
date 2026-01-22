@@ -1,4 +1,5 @@
-﻿using LibraryManagement.Application.Features.Books.Queries.GetAllBooks;
+﻿using LibraryManagement.Application.Common.Interfaces;
+using LibraryManagement.Application.Features.Books.Queries.GetAllBooks;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,4 +9,8 @@ using System.Threading.Tasks;
 
 namespace LibraryManagement.Application.Features.Books.Queries.GetBookById;
 
-public record GetBookByIdQuery(Guid Id) : IRequest<BookResponse?>;
+public record GetBookByIdQuery(Guid Id) : IRequest<BookResponse?>, ICacheableQuery
+{
+  public string CacheKey => $"books:{Id}";
+  public TimeSpan? CacheDuration => TimeSpan.FromMinutes(10);
+}

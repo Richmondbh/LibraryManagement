@@ -11,9 +11,11 @@ namespace LibraryManagement.Application.Features.Books.Commands.DeleteBook;
 public class DeleteBookCommandHandler: IRequestHandler<DeleteBookCommand, bool>
 {
     private readonly IBookRepository _bookRepository;
-    public DeleteBookCommandHandler(IBookRepository bookRepository)
+    private readonly ICacheService _cacheService;
+    public DeleteBookCommandHandler(IBookRepository bookRepository, ICacheService cacheService)
     {
         _bookRepository = bookRepository;
+        _cacheService = cacheService;
     }
 
     public async Task<bool> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
@@ -24,6 +26,11 @@ public class DeleteBookCommandHandler: IRequestHandler<DeleteBookCommand, bool>
             return false;
 
         await _bookRepository.DeleteAsync(request.Id, cancellationToken);
+
+        // Invalidate caches
+        await _cacheService.RemoveAsync($"books:{request.Id}", cancellationToken);
+        await _cacheService.RemoveAsync("books:all", cancellationToken);
+
         return true;
     }
 }

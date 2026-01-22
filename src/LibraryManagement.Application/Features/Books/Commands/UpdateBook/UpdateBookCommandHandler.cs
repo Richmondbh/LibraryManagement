@@ -11,9 +11,11 @@ namespace LibraryManagement.Application.Features.Books.Commands.UpdateBook
     public class UpdateBookCommandHandler: IRequestHandler<UpdateBookCommand, bool>
     {
         private readonly IBookRepository _bookRepository;
-        public UpdateBookCommandHandler(IBookRepository bookRepository)
+        private readonly ICacheService _cacheService;
+        public UpdateBookCommandHandler(IBookRepository bookRepository, ICacheService cacheService)
         {
             _bookRepository = bookRepository;
+            _cacheService = cacheService;
         }
 
         public async Task<bool> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
@@ -31,6 +33,11 @@ namespace LibraryManagement.Application.Features.Books.Commands.UpdateBook
             );
 
             await _bookRepository.UpdateAsync(book, cancellationToken);
+
+            // Invalidate caches
+            await _cacheService.RemoveAsync($"books:{request.Id}", cancellationToken);
+            await _cacheService.RemoveAsync("books:all", cancellationToken);
+
             return true;
         }
     }

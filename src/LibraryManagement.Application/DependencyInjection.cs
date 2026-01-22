@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 
 namespace LibraryManagement.Application;
@@ -21,7 +22,11 @@ public static class DependencyInjection
             cfg.RegisterServicesFromAssembly(assembly);
 
             // Register pipeline behaviors
+            // 1. Validation runs first
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+            // 2.Caching runs after validation
+            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
         });
 
 

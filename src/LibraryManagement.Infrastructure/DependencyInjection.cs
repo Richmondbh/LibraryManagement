@@ -1,4 +1,5 @@
 ﻿using LibraryManagement.Application.Common.Interfaces;
+using LibraryManagement.Infrastructure.Caching;
 using LibraryManagement.Infrastructure.Data;
 using LibraryManagement.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -26,8 +27,28 @@ public static class DependencyInjection
 
                 ));
 
+        // Redis Cache
+        var redisConnection = configuration.GetConnectionString("Redis");
+        if (!string.IsNullOrEmpty(redisConnection))
+        {
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = redisConnection;
+                options.InstanceName = "LibraryManagement:";
+            });
+        }
+        else
+        {
+            // Fallback to in-memory cache for development
+            services.AddDistributedMemoryCache();
+        }
+
+        // Services
+        services.AddScoped<ICacheService, RedisCacheService>();
+
         //Repositories
         services.AddScoped<IBookRepository, PostGresBookRepository>();
+        
         //services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         //// Caching (when I add Redis later)

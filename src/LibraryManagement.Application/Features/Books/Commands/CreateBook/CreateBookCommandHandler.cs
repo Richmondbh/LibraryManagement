@@ -13,9 +13,11 @@ namespace LibraryManagement.Application.Features.Books.Commands.CreateBook;
 public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Guid>
 {
     private readonly IBookRepository _bookRepository;
-    public CreateBookCommandHandler(IBookRepository bookRepository)
+    private readonly ICacheService _cacheService;
+    public CreateBookCommandHandler(IBookRepository bookRepository, ICacheService cacheService)
     {
         _bookRepository = bookRepository;
+        _cacheService = cacheService;
     }
 
     public async Task<Guid> Handle(CreateBookCommand request, CancellationToken cancellationToken)
@@ -28,6 +30,9 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Guid>
          );
 
         await _bookRepository.AddAsync(book, cancellationToken);
+
+        // Invalidate the "all books" cache
+        await _cacheService.RemoveAsync("books:all", cancellationToken);
 
         return book.Id;
     }
