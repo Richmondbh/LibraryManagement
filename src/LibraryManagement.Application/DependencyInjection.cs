@@ -22,6 +22,7 @@ public static class DependencyInjection
 
         // AutoMapper 
         services.AddAutoMapper(assembly);
+        //  services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         return services;
     }
