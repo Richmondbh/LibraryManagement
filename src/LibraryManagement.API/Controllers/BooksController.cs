@@ -1,5 +1,6 @@
 ﻿using LibraryManagement.Application.Features.Books.Commands.CreateBook;
 using LibraryManagement.Application.Features.Books.Commands.DeleteBook;
+using LibraryManagement.Application.Features.Books.Commands.UpdateBook;
 using LibraryManagement.Application.Features.Books.Queries.GetAllBooks;
 using LibraryManagement.Application.Features.Books.Queries.GetBookById;
 using MediatR;
@@ -58,6 +59,23 @@ namespace LibraryManagement.API.Controllers
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(new DeleteBookCommand(id), cancellationToken);
+
+            if (!result)
+                return NotFound();
+
+            return NoContent();
+        }
+
+        // <summary>
+        /// Update an existing book
+        /// </summary>
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Update(Guid id, UpdateBookCommand command, CancellationToken cancellationToken)
+        {
+            if (id != command.Id)
+                return BadRequest("ID mismatch");
+
+            var result = await _mediator.Send(command, cancellationToken);
 
             if (!result)
                 return NotFound();
