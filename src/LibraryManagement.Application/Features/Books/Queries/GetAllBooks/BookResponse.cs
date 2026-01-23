@@ -12,8 +12,8 @@ public record BookResponse
     string Title,
     string Author,
     string ISBN,
-    int PublishedYear
-
+    int PublishedYear,
+    string? CoverImageUrl
 
 
 );

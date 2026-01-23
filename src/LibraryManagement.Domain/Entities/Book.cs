@@ -15,6 +15,7 @@ namespace LibraryManagement.Domain.Entities
         public string Author { get; private set; } = string.Empty;
         public string ISBN { get; private set; } = string.Empty;
         public int PublishedYear { get; private set; }
+        public string? CoverImageUrl { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? UpdatedAt { get; private set; }
 
@@ -42,6 +43,11 @@ namespace LibraryManagement.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
+        public void SetCoverImage(string coverImageUrl)
+        {
+            CoverImageUrl = coverImageUrl;
+            UpdatedAt = DateTime.UtcNow;
+        }
 
     }
 }

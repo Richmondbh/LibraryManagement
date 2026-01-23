@@ -3,6 +3,7 @@ using LibraryManagement.Infrastructure.Caching;
 using LibraryManagement.Infrastructure.Data;
 using LibraryManagement.Infrastructure.Data.Repositories;
 using LibraryManagement.Infrastructure.Messaging.ServiceBus;
+using LibraryManagement.Infrastructure.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@ public static class DependencyInjection
     IConfiguration configuration)
     {
 
+        //Database
         services.AddDbContext<LibraryDbContext>(options =>
             options.UseNpgsql(
                 configuration.GetConnectionString("DefaultConnection"),
@@ -47,16 +49,14 @@ public static class DependencyInjection
         // Services
         services.AddScoped<ICacheService, RedisCacheService>();
         services.AddSingleton<IMessagePublisher, ServiceBusPublisher>();
+        services.AddScoped<IBlobStorageService, AzureBlobStorageService>();
 
         //Repositories
         services.AddScoped<IBookRepository, PostGresBookRepository>();
         
-        //services.AddScoped<IUnitOfWork, UnitOfWork>();
+       
 
-        //// Caching (when I add Redis later)
-        //// services.AddStackExchangeRedisCache(options =>
-        ////     options.Configuration = configuration.GetConnectionString("Redis"));
-        //// services.AddScoped<ICacheService, RedisCacheService>();
+       
 
         return services;
     }
