@@ -12,10 +12,12 @@ namespace LibraryManagement.Application.Features.Books.Commands.UpdateBook
     {
         private readonly IBookRepository _bookRepository;
         private readonly ICacheService _cacheService;
-        public UpdateBookCommandHandler(IBookRepository bookRepository, ICacheService cacheService)
+        private readonly IMessagePublisher _messagePublisher;
+        public UpdateBookCommandHandler(IBookRepository bookRepository, ICacheService cacheService, IMessagePublisher messagePublisher)
         {
             _bookRepository = bookRepository;
             _cacheService = cacheService;
+            _messagePublisher = messagePublisher;
         }
 
         public async Task<bool> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
@@ -38,6 +40,17 @@ namespace LibraryManagement.Application.Features.Books.Commands.UpdateBook
             await _cacheService.RemoveAsync($"books:{request.Id}", cancellationToken);
             await _cacheService.RemoveAsync("books:all", cancellationToken);
 
+            // Publish integration event
+            await _messagePublisher.PublishAsync(new
+            {
+                BookId = book.Id,
+                book.Title,
+                book.Author,
+                book.ISBN,
+                book.PublishedYear,
+                UpdatedAt = DateTime.UtcNow,
+                OccurredAt = DateTime.UtcNow
+            }, "book-updated", cancellationToken);
             return true;
         }
     }
