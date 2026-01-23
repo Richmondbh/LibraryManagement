@@ -28,7 +28,8 @@ public  class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, IEnume
             book.Title,
             book.Author,
             book.ISBN,
-            book.PublishedYear
+            book.PublishedYear,
+            book.CoverImageUrl
         ));
     }
 

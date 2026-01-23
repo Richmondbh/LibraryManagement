@@ -29,7 +29,8 @@ public class GetBookByIdQueryHandler: IRequestHandler<GetBookByIdQuery, BookResp
             book.Title,
             book.Author,
             book.ISBN,
-            book.PublishedYear
+            book.PublishedYear,
+            book.CoverImageUrl
         );
     }
 }
