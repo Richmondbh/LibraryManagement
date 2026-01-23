@@ -5,9 +5,11 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Application Insights
+builder.Services.AddApplicationInsightsTelemetry();
 
-    // Add services to the container.
-    builder.Services.AddApplication();
+// Add services to the container.
+builder.Services.AddApplication();
     builder.Services.AddInfrastructure(builder.Configuration);
 
     builder.Services.AddControllers();
