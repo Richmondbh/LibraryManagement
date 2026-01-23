@@ -4,6 +4,7 @@ using LibraryManagement.Infrastructure.Data;
 using LibraryManagement.Infrastructure.Data.Repositories;
 using LibraryManagement.Infrastructure.Messaging.ServiceBus;
 using LibraryManagement.Infrastructure.Storage;
+using LibraryManagement.Infrastructure.Telemetry;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,6 +51,7 @@ public static class DependencyInjection
         services.AddScoped<ICacheService, RedisCacheService>();
         services.AddSingleton<IMessagePublisher, ServiceBusPublisher>();
         services.AddScoped<IBlobStorageService, AzureBlobStorageService>();
+        services.AddScoped<ITelemetryService, AppInsightsTelemetryService>();
 
         //Repositories
         services.AddScoped<IBookRepository, PostGresBookRepository>();
