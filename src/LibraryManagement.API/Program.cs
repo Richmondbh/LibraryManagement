@@ -20,11 +20,15 @@ builder.Services.AddApplication();
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
+    //if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Docker")
+    //{
+    //    app.UseSwagger();
+    //    app.UseSwaggerUI();
+    //}
+app.UseSwagger();
+app.UseSwaggerUI();
+
+
 
 // Adding exception handling middleware 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
