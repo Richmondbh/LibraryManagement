@@ -26,14 +26,18 @@ builder.Services.AddApplication();
     //    app.UseSwaggerUI();
     //}
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Library Management API v1");
+    c.RoutePrefix = "swagger";  
+});
 
 
 
 // Adding exception handling middleware 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
     app.UseAuthorization();
 

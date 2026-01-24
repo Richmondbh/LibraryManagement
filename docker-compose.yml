@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  # ===========================================
+  # Library Management API
+  # ===========================================
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: librarymanagement-api
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      # Database
+      - ConnectionStrings__DefaultConnection=${ConnectionStrings__DefaultConnection}
+      # Redis Cache
+      - ConnectionStrings__Redis=${ConnectionStrings__Redis}
+      # Azure Services 
+      - ConnectionStrings__ServiceBus=${ConnectionStrings__ServiceBus}
+      - ConnectionStrings__BlobStorage=${ConnectionStrings__BlobStorage}
+      - ApplicationInsights__ConnectionString=${ApplicationInsights__ConnectionString}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - librarymanagement-network
+    restart: unless-stopped
+
+  # ===========================================
+  # PostgreSQL Database
+  # ===========================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: librarymanagement-postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - librarymanagement-network
+    restart: unless-stopped
+
+  # ===========================================
+  # Redis Cache
+  # ===========================================
+  redis:
+    image: redis:7-alpine
+    container_name: librarymanagement-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - librarymanagement-network
+    restart: unless-stopped
+
+  # ===========================================
+  # Azurite (Local Azure Storage Emulator)
+  # To be used later
+  # ===========================================
+  # azurite:
+  #   image: mcr.microsoft.com/azure-storage/azurite
+  #   container_name: librarymanagement-azurite
+  #   ports:
+  #     - "10000:10000"  # Blob
+  #     - "10001:10001"  # Queue
+  #     - "10002:10002"  # Table
+  #   volumes:
+  #     - azurite-data:/data
+  #   command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0"
+  #   networks:
+  #     - librarymanagement-network
+
+# ===========================================
+# Volumes - Persist data between restarts
+# ===========================================
+volumes:
+  postgres-data:
+  redis-data:
+  # azurite-data:
+
+# ===========================================
+# Networks
+# ===========================================
+networks:
+  librarymanagement-network:
+    driver: bridge
