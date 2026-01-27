@@ -9,13 +9,15 @@ namespace LibraryManagement.IntegrationTests.Common;
 public class TestDtos
 {
     public record CreateBookRequest(
-     string Title,
-     string Author,
-     string ISBN,
-     int PublishedYear
- );
+    string Title,
+    string Author,
+    string ISBN,
+    int PublishedYear
+);
 
+    // Including Id in the update request if your API expects it
     public record UpdateBookRequest(
+        Guid Id,
         string Title,
         string Author,
         string ISBN,
