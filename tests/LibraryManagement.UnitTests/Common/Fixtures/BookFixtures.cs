@@ -20,7 +20,7 @@ namespace LibraryManagement.UnitTests.Common.Fixtures
         {
             var book = Book.Create(title, author, isbn, publishedYear);
 
-            // Use reflection to set Id if provided (for testing specific IDs)
+            // Using  reflection to set Id if provided (for testing specific IDs)
             if (id.HasValue)
             {
                 var idProperty = typeof(Book).GetProperty("Id");
@@ -31,9 +31,9 @@ namespace LibraryManagement.UnitTests.Common.Fixtures
         }
 
         public static CreateBookCommand GetValidCreateCommand(
-            string title = "Clean Architecture",
-            string author = "Robert C. Martin",
-            string isbn = "9780134494166",
+            string title = "Good Man",
+            string author = "Richmond",
+            string isbn = "978013449499",
             int publishedYear = 2017)
         {
             return new CreateBookCommand(title, author, isbn, publishedYear);

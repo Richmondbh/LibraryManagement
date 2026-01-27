@@ -5,9 +5,11 @@ using LibraryManagement.Infrastructure.Data.Repositories;
 using LibraryManagement.Infrastructure.Messaging.ServiceBus;
 using LibraryManagement.Infrastructure.Storage;
 using LibraryManagement.Infrastructure.Telemetry;
+using Microsoft.Azure.Amqp.Framing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace LibraryManagement.Infrastructure;
 
@@ -17,7 +19,7 @@ public static class DependencyInjection
     this IServiceCollection services,
     IConfiguration configuration)
     {
-
+       
         //Database
         services.AddDbContext<LibraryDbContext>(options =>
             options.UseNpgsql(
