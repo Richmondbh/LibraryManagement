@@ -21,7 +21,7 @@ public static class DependencyInjection
         {
             cfg.RegisterServicesFromAssembly(assembly);
 
-            // Register pipeline behaviors
+            // Registers pipeline behaviors
             // 1. Logging runs first (captures everything)
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
