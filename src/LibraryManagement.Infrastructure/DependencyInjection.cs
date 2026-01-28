@@ -2,6 +2,7 @@
 using LibraryManagement.Infrastructure.Caching;
 using LibraryManagement.Infrastructure.Data;
 using LibraryManagement.Infrastructure.Data.Repositories;
+using LibraryManagement.Infrastructure.Identity;
 using LibraryManagement.Infrastructure.Messaging.ServiceBus;
 using LibraryManagement.Infrastructure.Storage;
 using LibraryManagement.Infrastructure.Telemetry;
@@ -55,12 +56,17 @@ public static class DependencyInjection
         services.AddScoped<IBlobStorageService, AzureBlobStorageService>();
         services.AddScoped<ITelemetryService, AppInsightsTelemetryService>();
 
+        // Identity Services
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+
         //Repositories
         services.AddScoped<IBookRepository, PostGresBookRepository>();
-        
-       
+        services.AddScoped<IUserRepository, UserRepository>();
 
-       
+
+
 
         return services;
     }
