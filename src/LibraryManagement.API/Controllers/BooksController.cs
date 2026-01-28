@@ -5,6 +5,7 @@ using LibraryManagement.Application.Features.Books.Commands.UploadBookCover;
 using LibraryManagement.Application.Features.Books.Queries.GetAllBooks;
 using LibraryManagement.Application.Features.Books.Queries.GetBookById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagement.API.Controllers;
@@ -46,6 +47,7 @@ public class BooksController : ControllerBase
     /// <summary>
     /// Create a new book
     /// </summary>
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Guid>> Create(CreateBookCommand command, CancellationToken cancellationToken)
     {
@@ -56,6 +58,8 @@ public class BooksController : ControllerBase
     /// <summary>
     /// Delete a book
     /// </summary>
+    /// 
+    [Authorize]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
@@ -70,6 +74,8 @@ public class BooksController : ControllerBase
     // <summary>
     /// Update an existing book
     /// </summary>
+    /// 
+    [Authorize]
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, UpdateBookCommand command, CancellationToken cancellationToken)
     {
@@ -87,6 +93,8 @@ public class BooksController : ControllerBase
     /// <summary>
     /// Upload a cover image for a book
     /// </summary>
+    /// 
+    [Authorize]
     [HttpPost("{id:guid}/cover")]
     public async Task<IActionResult> UploadCover(Guid id, IFormFile file, CancellationToken cancellationToken)
     {

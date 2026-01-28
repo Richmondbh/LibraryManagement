@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MediatR;
 
-namespace LibraryManagement.Application.Features.Auth.Commands.Login
-{
-    public class LoginCommandHandler
+namespace LibraryManagement.Application.Features.Auth.Commands.Login;
+    public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
@@ -49,4 +49,4 @@ namespace LibraryManagement.Application.Features.Auth.Commands.Login
             );
         }
     }
-}
+

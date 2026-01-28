@@ -4,7 +4,9 @@ using LibraryManagement.Application.Common.Models;
 using LibraryManagement.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+//using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
+
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,8 +46,8 @@ builder.Services.AddApplication();
     builder.Services.AddInfrastructure(builder.Configuration);
 
     builder.Services.AddControllers();
-    // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-    builder.Services.AddEndpointsApiExplorer();
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(options =>
     {
         options.SwaggerDoc("v1", new OpenApiInfo
@@ -65,8 +67,8 @@ builder.Services.AddApplication();
             Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token",
             Name = "Authorization",
             In = ParameterLocation.Header,
-            Type = SecuritySchemeType.ApiKey,
-            Scheme = "Bearer"
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer"
         });
 
         options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -83,13 +85,9 @@ builder.Services.AddApplication();
             Array.Empty<string>()
         });
     });
-    
-        
-        
 
 
-
-    var app = builder.Build();
+var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
@@ -99,18 +97,20 @@ app.UseSwaggerUI(c =>
 });
 
 
+//builder.Services.AddHttpContextAccessor();
 
 // Adding exception handling middleware 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
-    app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
-    app.MapControllers();
+ app.MapControllers();
 
-    app.Run();
+app.Run();
 
-// Make the implicit Program class public so test projects can access it
+// Making the implicit Program class public so test projects can access it
 public partial class Program { }
 
