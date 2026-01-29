@@ -336,6 +336,7 @@ public async Task<IActionResult> UploadCover(Guid id, IFormFile file) { }
 - [x] Unit Tests
 - [x] Integration Tests
 - [x] Docker containerization
+-  ---To Be Completed
 - [ ] SendGrid email notifications
 - [ ] Azure deployment (Container Apps)
 - [ ] CI/CD with GitHub Actions
