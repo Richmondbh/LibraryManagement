@@ -4,6 +4,7 @@ using LibraryManagement.Application.Features.Books.Commands.UpdateBook;
 using LibraryManagement.Application.Features.Books.Commands.UploadBookCover;
 using LibraryManagement.Application.Features.Books.Queries.GetAllBooks;
 using LibraryManagement.Application.Features.Books.Queries.GetBookById;
+using LibraryManagement.Domain.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +48,8 @@ public class BooksController : ControllerBase
     /// <summary>
     /// Create a new book
     /// </summary>
-    [Authorize]
+    // [Authorize(Roles = Roles.Admin)]
+    [Authorize(Policy = "RequireAdminRole")]
     [HttpPost]
     public async Task<ActionResult<Guid>> Create(CreateBookCommand command, CancellationToken cancellationToken)
     {
@@ -59,7 +61,7 @@ public class BooksController : ControllerBase
     /// Delete a book
     /// </summary>
     /// 
-    [Authorize]
+    [Authorize(Policy = "RequireAdminRole")]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
@@ -75,7 +77,7 @@ public class BooksController : ControllerBase
     /// Update an existing book
     /// </summary>
     /// 
-    [Authorize]
+    [Authorize(Policy = "RequireAdminRole")]
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, UpdateBookCommand command, CancellationToken cancellationToken)
     {
@@ -94,7 +96,7 @@ public class BooksController : ControllerBase
     /// Upload a cover image for a book
     /// </summary>
     /// 
-    [Authorize]
+    [Authorize(Policy = "RequireUserRole")]
     [HttpPost("{id:guid}/cover")]
     public async Task<IActionResult> UploadCover(Guid id, IFormFile file, CancellationToken cancellationToken)
     {

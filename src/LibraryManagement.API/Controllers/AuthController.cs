@@ -1,6 +1,8 @@
 ﻿using LibraryManagement.Application.Features.Auth.Commands.Login;
 using LibraryManagement.Application.Features.Auth.Commands.Register;
+using LibraryManagement.Application.Features.Auth.Commands.RegisterAdmin;
 using LibraryManagement.Application.Features.Auth.Queries.GetCurrentUser;
+using LibraryManagement.Domain.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +24,19 @@ namespace LibraryManagement.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<RegisterResponse>> Register(
             RegisterCommand command,
+            CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+            return CreatedAtAction(nameof(GetCurrentUser), new { }, result);
+        }
+
+        /// <summary>
+        /// Register a new admin (Admin only)
+        /// </summary>
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPost("register-admin")]
+        public async Task<ActionResult<RegisterAdminResponse>> RegisterAdmin(
+            RegisterAdminCommand command,
             CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(command, cancellationToken);
