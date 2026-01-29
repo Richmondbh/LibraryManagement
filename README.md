@@ -182,7 +182,7 @@ dotnet run --project src/LibraryManagement.API
 
 ---
 
-## 📖 API Endpoints
+##  API Endpoints
 
 ### Authentication
 
