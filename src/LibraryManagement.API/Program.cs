@@ -1,6 +1,7 @@
 using LibraryManagement.API.Middleware;
 using LibraryManagement.Application;
 using LibraryManagement.Application.Common.Models;
+using LibraryManagement.Domain.Constants;
 using LibraryManagement.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -35,7 +36,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole(Roles.Admin));
+    options.AddPolicy("RequireUserRole", policy => policy.RequireRole(Roles.User, Roles.Admin));
+});
 
 
 // Application Insights
@@ -92,6 +97,10 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 var app = builder.Build();
+
+// Seed database
+await LibraryManagement.Infrastructure.Data.DbInitializer.SeedAsync(app.Services);
+
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
