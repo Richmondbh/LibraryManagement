@@ -23,7 +23,7 @@ After passing the **Azure AZ-204 Developer Associate** exam, I wanted to go beyo
 | Validation | Manual | FluentValidation + Pipeline Behaviors |
 | Caching | None | Redis with Cache Behavior |
 | Messaging | None | Azure Service Bus + Events |
-| Authentication | Basic | JWT with Role-Based Authorization |
+| Authentication | Basic JWT/Role-based | JWT with Role-Based Authorization + Policies |
 | Testing | Minimal | Unit + Integration Tests (65+ tests) |
 | Containerization | None | Docker + Docker Compose |
 
