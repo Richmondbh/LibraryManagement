@@ -68,21 +68,25 @@ builder.Services.AddEndpointsApiExplorer();
             Name = "Authorization",
             In = ParameterLocation.Header,
             Type = SecuritySchemeType.Http,
-            Scheme = "bearer"
+            Scheme = "bearer",
+            BearerFormat = "JWT"
         });
 
         options.AddSecurityRequirement(new OpenApiSecurityRequirement
 
         {
-            new OpenApiSecurityScheme
-            {
+            {  new OpenApiSecurityScheme
+              {
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
                     Id = "Bearer"
                 }
-            },
-            Array.Empty<string>()
+              },
+                Array.Empty<string>()
+
+            }
+            
         });
     });
 
