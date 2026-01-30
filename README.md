@@ -344,12 +344,6 @@ public async Task<IActionResult> UploadCover(Guid id, IFormFile file) { }
 - [ ] Rate limiting
 
 ---
-
-##  Learning Resources
-
-This project applies concepts from:
-
- Learning Resources
 ##  Learning Resources
 
 This project applies concepts from:
