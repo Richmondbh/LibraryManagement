@@ -27,7 +27,7 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
     {
         var cacheKey = request.CacheKey;
 
-        // Try to get from cache
+        // Trying to get from cache
         var cachedResponse = await _cacheService.GetAsync<TResponse>(cacheKey, cancellationToken);
 
         if (cachedResponse is not null)

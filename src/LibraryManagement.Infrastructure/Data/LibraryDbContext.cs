@@ -22,7 +22,7 @@ public  class LibraryDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Apply all configurations from this assembly
+        // Applying all configurations from this assembly
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(LibraryDbContext).Assembly);
     }
 }

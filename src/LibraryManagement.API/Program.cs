@@ -46,7 +46,7 @@ builder.Services.AddAuthorization(options =>
 // Application Insights
 builder.Services.AddApplicationInsightsTelemetry();
 
-// Add services to the container.
+// Adds  services to the container.
 builder.Services.AddApplication();
     builder.Services.AddInfrastructure(builder.Configuration);
 
@@ -97,9 +97,6 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 var app = builder.Build();
-
-// Seed database
-await LibraryManagement.Infrastructure.Data.DbInitializer.SeedAsync(app.Services);
 
 
 app.UseSwagger();
