@@ -22,7 +22,7 @@ public class BooksController : ControllerBase
     }
 
     /// <summary>
-    /// Get all books from the database
+    /// Getting  all books from the database
     /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<BookResponse>>> GetAll(CancellationToken cancellationToken)
@@ -32,7 +32,7 @@ public class BooksController : ControllerBase
     }
 
     /// <summary>
-    /// Get a book by its ID
+    /// Getting a book by its ID
     /// </summary>
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<BookResponse>> GetById(Guid id, CancellationToken cancellationToken)
@@ -46,7 +46,7 @@ public class BooksController : ControllerBase
     }
 
     /// <summary>
-    /// Create a new book
+    /// Creating a new book
     /// </summary>
     // [Authorize(Roles = Roles.Admin)]
     [Authorize(Policy = "RequireAdminRole")]
@@ -58,7 +58,7 @@ public class BooksController : ControllerBase
     }
 
     /// <summary>
-    /// Delete a book
+    /// Deleting a book
     /// </summary>
     /// 
     [Authorize(Policy = "RequireAdminRole")]
@@ -74,7 +74,7 @@ public class BooksController : ControllerBase
     }
 
     // <summary>
-    /// Update an existing book
+    /// Updating an existing book
     /// </summary>
     /// 
     [Authorize(Policy = "RequireAdminRole")]
@@ -93,7 +93,7 @@ public class BooksController : ControllerBase
     }
 
     /// <summary>
-    /// Upload a cover image for a book
+    /// To Upload a cover image for a book
     /// </summary>
     /// 
     [Authorize(Policy = "RequireUserRole")]

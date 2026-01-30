@@ -19,7 +19,7 @@ namespace LibraryManagement.API.Controllers
         }
 
         /// <summary>
-        /// Register a new user
+        /// Registering a new user
         /// </summary>
         [HttpPost("register")]
         public async Task<ActionResult<RegisterResponse>> Register(
@@ -31,9 +31,9 @@ namespace LibraryManagement.API.Controllers
         }
 
         /// <summary>
-        /// Register a new admin (Admin only)
+        /// Registering a new admin (Admin only)
         /// </summary>
-        [Authorize(Roles = Roles.Admin)]
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("register-admin")]
         public async Task<ActionResult<RegisterAdminResponse>> RegisterAdmin(
             RegisterAdminCommand command,
@@ -44,7 +44,7 @@ namespace LibraryManagement.API.Controllers
         }
 
         /// <summary>
-        /// Login and get JWT token
+        /// Loggining to get JWT token
         /// </summary>
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponse>> Login(
@@ -56,7 +56,7 @@ namespace LibraryManagement.API.Controllers
         }
 
         /// <summary>
-        /// Get current authenticated user
+        /// Getting current authenticated user
         /// </summary>
         [Authorize]
         [HttpGet("me")]
