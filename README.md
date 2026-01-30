@@ -275,7 +275,7 @@ Request → LoggingBehavior → ValidationBehavior → CachingBehavior → Handl
 
 ```csharp
 // Admin only
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Policy = "RequireAdminRole")]
 [HttpPost]
 public async Task<ActionResult<Guid>> Create(CreateBookCommand command) { }
 
@@ -336,7 +336,8 @@ public async Task<IActionResult> UploadCover(Guid id, IFormFile file) { }
 - [x] Unit Tests
 - [x] Integration Tests
 - [x] Docker containerization
--  ---To Be Completed
+      
+### To Be Completed----------------------------------
 - [ ] SendGrid email notifications
 - [ ] Azure deployment (Container Apps)
 - [ ] CI/CD with GitHub Actions
