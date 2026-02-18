@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibraryManagement.Domain.Entities;
 
 namespace LibraryManagement.UnitTests.Application.Features.Books.Commands
 {
@@ -59,7 +60,7 @@ namespace LibraryManagement.UnitTests.Application.Features.Books.Commands
 
             _bookRepositoryMock
                 .Setup(r => r.GetByIdAsync(bookId, It.IsAny<CancellationToken>()))
-                .ReturnsAsync((LibraryManagement.Domain.Entities.Book?)null);
+                .ReturnsAsync((Book?)null);
 
             var command = new DeleteBookCommand(bookId);
 
@@ -101,7 +102,7 @@ namespace LibraryManagement.UnitTests.Application.Features.Books.Commands
 
             _bookRepositoryMock
                 .Setup(r => r.GetByIdAsync(bookId, It.IsAny<CancellationToken>()))
-                .ReturnsAsync((LibraryManagement.Domain.Entities.Book?)null);
+                .ReturnsAsync((Book?)null);
 
             var command = new DeleteBookCommand(bookId);
 

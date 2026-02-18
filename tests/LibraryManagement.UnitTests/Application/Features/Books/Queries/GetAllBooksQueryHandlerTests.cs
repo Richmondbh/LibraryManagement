@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibraryManagement.Domain.Entities;
 
 namespace LibraryManagement.UnitTests.Application.Features.Books.Queries
 {
@@ -46,7 +47,7 @@ namespace LibraryManagement.UnitTests.Application.Features.Books.Queries
             // Arrange
             _bookRepositoryMock
                 .Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<LibraryManagement.Domain.Entities.Book>());
+                .ReturnsAsync(new List<Book>());
 
             var query = new GetAllBooksQuery();
 
@@ -70,7 +71,7 @@ namespace LibraryManagement.UnitTests.Application.Features.Books.Queries
 
             _bookRepositoryMock
                 .Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<LibraryManagement.Domain.Entities.Book> { book });
+                .ReturnsAsync(new List<Book> { book });
 
             var query = new GetAllBooksQuery();
 
@@ -91,7 +92,7 @@ namespace LibraryManagement.UnitTests.Application.Features.Books.Queries
             // Arrange
             _bookRepositoryMock
                 .Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<LibraryManagement.Domain.Entities.Book>());
+                .ReturnsAsync(new List<Book>());
 
             var query = new GetAllBooksQuery();
 
