@@ -17,10 +17,10 @@ namespace LibraryManagement.UnitTests.Domain.Entities
         public void Create_WithValidData_ReturnsBook()
         {
             // Arrange
-            var title = "Clean Architecture";
-            var author = "Robert C. Martin";
+            var title = "Clean Code";
+            var author = "Richmond Hope";
             var isbn = "978-0134494166";
-            var publishedYear = 2017;
+            var publishedYear = 2026;
 
             // Act
             var book = Book.Create(title, author, isbn, publishedYear);

@@ -15,7 +15,7 @@ public class TestDtos
     int PublishedYear
 );
 
-    // Including Id in the update request if your API expects it
+    // Including Id in the update request since the API expects it
     public record UpdateBookRequest(
         Guid Id,
         string Title,
