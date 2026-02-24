@@ -14,7 +14,36 @@ var builder = WebApplication.CreateBuilder(args);
 
 // JWT Settings
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
-var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>()!;
+var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>()
+    ?? new JwtSettings();
+
+//  defaults jwt for testing
+
+if (builder.Environment.IsDevelopment() || builder.Environment.EnvironmentName == "Testing")
+{
+    if (string.IsNullOrEmpty(jwtSettings.Secret))
+    {
+        jwtSettings.Secret = "DefaultTestSecretKeyThatIsAtLeast32Characters!";
+    }
+    if (string.IsNullOrEmpty(jwtSettings.Issuer))
+    {
+        jwtSettings.Issuer = "LibraryManagement";
+    }
+    if (string.IsNullOrEmpty(jwtSettings.Audience))
+    {
+        jwtSettings.Audience = "LibraryManagement";
+    }
+}
+
+else
+{
+    // In Production check
+    if (string.IsNullOrEmpty(jwtSettings.Secret))
+    {
+        throw new InvalidOperationException(
+            "JWT Secret is not configured. Set 'JwtSettings:Secret' in environment variables.");
+    }
+}
 
 // Authentication
 builder.Services.AddAuthentication(options =>

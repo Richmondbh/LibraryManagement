@@ -124,8 +124,8 @@ namespace LibraryManagement.IntegrationTests.Controllers
         {
             // Arrange
             var request = new CreateBookRequest(
-                "Domain-Driven Design",
-                "Eric Evans",
+                "Domain-Driven Achitecture",
+                "Richmond Boakye",
                 "9780321125217",
                 2003
             );

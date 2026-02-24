@@ -15,7 +15,7 @@ namespace LibraryManagement.IntegrationTests.Controllers
         public HealthCheckTests(CustomWebApplicationFactory factory) : base(factory)
         {
         }
-
+        
         [Fact]
         public async Task Swagger_ShouldBeAccessible()
         {
@@ -35,5 +35,7 @@ namespace LibraryManagement.IntegrationTests.Controllers
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
     }
+
 }
