@@ -140,7 +140,7 @@ namespace LibraryManagement.IntegrationTests.Controllers
 
             var book = await getResponse.Content.ReadFromJsonAsync<BookResponse>();
             book.Should().NotBeNull();
-            book!.Title.Should().Be("Domain-Driven Design");
+            book!.Title.Should().Be("Domain-Driven Achitecture");
         }
 
         [Fact]

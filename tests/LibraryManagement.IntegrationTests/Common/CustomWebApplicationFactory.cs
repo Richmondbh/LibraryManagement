@@ -1,5 +1,7 @@
 ﻿using LibraryManagement.Application.Common.Interfaces;
 using LibraryManagement.Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Data.Sqlite;
@@ -7,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Moq;
 using System;
@@ -27,6 +30,21 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
        
         builder.ConfigureServices(services =>
         {
+
+            // Remove existing authentication handlers (JWT)
+            services.RemoveAll(typeof(IConfigureOptions<JwtBearerOptions>));
+            services.RemoveAll(typeof(AuthenticationSchemeProvider));
+
+            // Add test auth scheme
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "TestScheme";
+                options.DefaultChallengeScheme = "TestScheme";
+            })
+            .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
+                "TestScheme",
+                options => { });
+
             // Remove ALL Entity Framework related services
             var descriptorsToRemove = services.Where(d =>
                 d.ServiceType == typeof(DbContextOptions<LibraryDbContext>) ||
