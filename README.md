@@ -8,6 +8,7 @@ A production-ready .NET 9 Web API built with **Clean Architecture**, **CQRS**, a
 ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=flat&logo=docker&logoColor=white)
 
 ![Library Managment Screenshot](LibraryManagementAPI.png)
+![Library Managment Screenshot](LibraryManagementAPI_2.png)
 
 ---
 
